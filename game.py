@@ -88,6 +88,9 @@ class Game():
 		self.set_up_map()
 		while self.is_running:
 			
+			#show position
+			print("Position: {}/{}".format(self.player.x, self.player.y))
+			
 			# handle input
 			player_input = input("You:")
 			
