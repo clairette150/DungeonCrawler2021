@@ -58,6 +58,7 @@ class Display():
 					# draw map
 					elif x == tile_data['x'] and y == tile_data['y']:
 						icon = str(tile_data['tile'].tile_type)
+						break
 					else:
 						icon = "?"
 				row += icon		
