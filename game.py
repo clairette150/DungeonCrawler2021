@@ -94,7 +94,9 @@ class Game():
 			
 			# handle input
 			player_input = input("You:")
-			
+				if player_input == "quit" :
+					break
+
 			# compute
 			sleep(0.5)
 			if player_input == "w":
