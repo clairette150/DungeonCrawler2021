@@ -3,7 +3,7 @@
 import os 
 
 from tile import Tile
-from tile_type import ground, wall
+from tile_type import ground, wall, water, altar, grass
 
 from read_write_csv import make_csv, read_csv, add_csv
 
@@ -13,7 +13,7 @@ class GameMap():
 		self.board = []		
 		self.width = 0
 		self.heigth = 0
-		self.tile_types = {"wall":wall, "ground":ground} # import from tile_types and add more here 
+		self.tile_types = {"wall":wall, "ground":ground, "water":water, "altar":altar,"grass":grass} # import from tile_types and add more here
 		
 	def read_map(self):
 		# read from csv file
@@ -28,19 +28,23 @@ class GameMap():
 		print(data[1:len(data)])
 		for tile_data in data[1:len(data)]:
 			print(tile_data)
-			tile_x, tile_y, tile_name = tile_data
-			tile_x = int(tile_x)
-			tile_y = int(tile_y)
-			tile_obj = Tile(tile_x, tile_y, self.tile_types[tile_name])
-			dictionary = {'x':tile_x, 'y':tile_y, 'tile':tile_obj}
-			if tile_x > max_x:
-				max_x = tile_x
-			if tile_y > max_y:
-				max_y = tile_y
-			print("adding {} to game board at ({}/{})". format(tile_name, tile_x, tile_y))
-			self.board.append(dictionary)
-		self.width = int(max_y)
-		self.heigth = int(max_x)
+			try:
+				tile_x, tile_y, tile_name = tile_data
+				tile_x = int(tile_x)
+				tile_y = int(tile_y)
+				tile_obj = Tile(tile_x, tile_y, self.tile_types[tile_name])
+				dictionary = {'x':tile_x, 'y':tile_y, 'tile':tile_obj}
+				if tile_x > max_x:
+					max_x = tile_x
+				if tile_y > max_y:
+					max_y = tile_y
+				print("adding {} to game board at ({}/{})". format(tile_name, tile_x, tile_y))
+				self.board.append(dictionary)
+				self.width = int(max_y)
+				self.heigth = int(max_x)
+			except:
+				# Do nothing here
+				pass
 	
 	def create_new_tile(self, tile_x, tile_y, tile_name):
 		tile_obj = Tile(tile_x, tile_y, self.tile_types[tile_name])
