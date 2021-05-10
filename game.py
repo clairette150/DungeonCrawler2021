@@ -102,7 +102,16 @@ class Game():
 			if player_input == ".":
 				# create ground tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "ground")
-			
+			if player_input == "~":
+				# create water tile
+				self.game_map.create_new_tile(self.player.x, self.player.y, "water")
+			if player_input == "@":
+				# create altar tile
+				self.game_map.create_new_tile(self.player.x, self.player.y, "altar")
+			if player_input == "*":
+				# create grass tile
+				self.game_map.create_new_tile(self.player.x, self.player.y, "grass")
+
 			#clear screen
 			self.display.clear_screen()
 			# show

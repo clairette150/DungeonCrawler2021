@@ -9,3 +9,6 @@ class TileType():
 
 ground = TileType("ground", True, "•")
 wall = TileType("wall", False, "#")
+water = TileType("water", False, "~")
+altar = TileType("altar", False, "@")
+grass = TileType("grass", False, "*")
