@@ -3,45 +3,23 @@
 
 from os import system, name 
 from time import sleep 
+from model.player import Player
+from model.point import Point
 
 from game_map import GameMap
 
-
-class Point():
-	def __init__(self, x, y):
-		self.x = x
-		self.y = y
-	
-	def __add__(self, Point):
-		self.x = self.x + Point.x
-		self.y = self.y + Point.y
-	
-	def __repr__(self):
-		return "({}/{})".format(self.x, self.y)
 		
 LEFT = Point(0, 1)
 RIGHT = Point(0, -1)
 UP = Point(-1, 0)
 DOWN = Point(1,0)
 
-class Player():
-	def __init__(self):
-		self.name = "Jane"
-		self.hp = 10
-		self.mp = 0
-		self.x = 1
-		self.y = 1
-		self.pos = Point(self.x, self.y)
-		self.icon = "o"
-	
-	def move(self):
-		pass
-
-
 class Display():
 	def __init__(self):
 		pass
-			
+
+	def printPlayerStat(self, player):
+		print()
 			
 	def draw_map(self, game_map, player):
 		y = 0
@@ -129,6 +107,8 @@ class Game():
 			self.display.clear_screen()
 			# show
 			self.display.draw_map(self.game_map, self.player)
+			# print player stats
+			self.player.printStats()
 					
 	def quit(self):
 		self.is_running = False
