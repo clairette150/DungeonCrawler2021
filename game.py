@@ -8,51 +8,51 @@ from model.point import Point
 
 from game_map import GameMap
 
-		
+        
 LEFT = Point(0, 1)
 RIGHT = Point(0, -1)
 UP = Point(-1, 0)
 DOWN = Point(1,0)
 
 class Display():
-	def __init__(self):
-		pass
+    def __init__(self):
+        pass
 
-	def printPlayerStat(self, player):
-		print()
-			
-	def draw_map(self, game_map, player):
-		y = 0
-		x = 0
-		while y <= game_map.width: 
-			row = ""
-			while x <= game_map.heigth:
-				for tile_data in game_map.board:
-					#draw player
-					if x == player.x and y == player.y:
-						#print(x, "/", y)
-						icon = player.icon
-					#TODO add other icons like mobs, coins etc.
-					# draw map
-					elif x == tile_data['x'] and y == tile_data['y']:
-						icon = str(tile_data['tile'].tile_type)
-						break
-					else:
-						icon = "?"
-				row += icon		
-				x += 1
-			x = 0
-			y += 1
-			print(row)
-			
-	def clear_screen(self): 
-		# https://www.codespeedy.com/clear-screen-in-python/
-		# for windows os
-		if name == 'nt': 
-			_ = system('cls')  
-		# for mac and linux os(The name is posix)
-		else: 
-			_ = system('clear') 
+    def printPlayerStat(self, player):
+        print()
+            
+    def draw_map(self, game_map, player):
+        y = 0
+        x = 0
+        while y <= game_map.width: 
+            row = ""
+            while x <= game_map.heigth:
+                for tile_data in game_map.board:
+                    #draw player
+                    if x == player.x and y == player.y:
+                        #print(x, "/", y)
+                        icon = player.icon
+                    #TODO add other icons like mobs, coins etc.
+                    # draw map
+                    elif x == tile_data['x'] and y == tile_data['y']:
+                        icon = str(tile_data['tile'].tile_type)
+                        break
+                    else:
+                        icon = "?"
+                row += icon     
+                x += 1
+            x = 0
+            y += 1
+            print(row)
+            
+    def clear_screen(self): 
+        # https://www.codespeedy.com/clear-screen-in-python/
+        # for windows os
+        if name == 'nt': 
+            _ = system('cls')  
+        # for mac and linux os(The name is posix)
+        else: 
+            _ = system('clear') 
 
 
 class Game():
@@ -127,8 +127,8 @@ class Game():
 			self.game_map.write_game_map([['0','0','wall'], ['0','1','wall'], ['0','2','wall'], ['1','0','ground'], ['1','1','ground'], ['1','2','ground'], ['2','0','wall'], ['2','1','wall'], ['2','2','wall']])
 			self.game_map.make_board()	
 
-		
-if __name__		 == "__main__":
-	game = Game()
-	game.run()
-		
+
+if __name__      == "__main__":
+    game = Game()
+    game.run()
+        

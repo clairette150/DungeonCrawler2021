@@ -1,5 +1,7 @@
 # Game Map
 
+import os 
+
 from tile import Tile
 from tile_type import ground, wall, water, altar, grass
 
@@ -55,7 +57,8 @@ class GameMap():
 			add_csv('tile_map.csv',tile)
 		
 	def create_game_map(self):
-		make_csv('tile_map.csv',['x','y','tiletype'])
+		if not os.path.isfile('./tile_map.csv'): 
+			make_csv('tile_map.csv',['x','y','tiletype'])
 		
 	def set_size(self, new_width, new_heigth):
 		self.width = new_width
