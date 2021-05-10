@@ -3,6 +3,7 @@ import csv
 def make_csv(filename, data):
 	with open(filename, 'w', encoding='utf-8') as data_file:
 		# writer obj nicht vergessen!
+		print("-- writing: data")
 		writer = csv.writer(data_file, delimiter="|")
 		writer.writerow(data)
 
