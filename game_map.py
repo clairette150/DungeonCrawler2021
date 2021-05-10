@@ -2,6 +2,7 @@
 
 from tile import Tile
 from tile_type import ground, wall
+import os
 
 from read_write_csv import make_csv, read_csv, add_csv
 
@@ -51,11 +52,16 @@ class GameMap():
 			add_csv('tile_map.csv',tile)
 		
 	def create_game_map(self):
-		make_csv('tile_map.csv',['x','y','tiletype'])
+		if not os.path.isfile('./tile_map.csv'): 
+			make_csv('tile_map.csv',['x','y','tiletype'])
 		
 	def set_size(self, new_width, new_heigth):
 		self.width = new_width
 		self.heigth = new_heigth
+	
+	def is_walkable(self, tile_x, tile_y):
+		pass
+		
 	
 
 if __name__ == "__main__":

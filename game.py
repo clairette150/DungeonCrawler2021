@@ -61,7 +61,7 @@ class Display():
 						break
 					else:
 						icon = "?"
-				row += icon		
+				row += icon     
 				x += 1
 			x = 0
 			y += 1
@@ -117,14 +117,18 @@ class Game():
 				self.game_map.set_size(new_width, new_heigth)
 				# fill map with unkown tiles
 				
-			
 			if player_input == "#":
 				# create wall tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "wall")
 			if player_input == ".":
 				# create ground tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "ground")
-			
+			if player_input == "t":
+				self.game_map.write_game_map(self.game_map.board)
+				
+			if play_input == "quit":
+				self.quit()
+			   
 			#clear screen
 			self.display.clear_screen()
 			# show
@@ -136,10 +140,10 @@ class Game():
 	def set_up_map(self):
 			self.game_map.create_game_map()
 			self.game_map.write_game_map([['0','0','wall'], ['0','1','wall'], ['0','2','wall'], ['1','0','ground'], ['1','1','ground'], ['1','2','ground'], ['2','0','wall'], ['2','1','wall'], ['2','2','wall']])
-			self.game_map.make_board()	
+			self.game_map.make_board()  
 
 		
-if __name__		 == "__main__":
+if __name__      == "__main__":
 	game = Game()
 	game.run()
 		
