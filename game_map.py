@@ -3,7 +3,7 @@
 import os 
 
 from tile import Tile
-from tile_type import ground, wall, water, altar, grass
+from tile_type import ground, wall, water, altar, grass, unknown
 
 from read_write_csv import make_csv, read_csv, add_csv
 
@@ -13,7 +13,7 @@ class GameMap():
 		self.board = []		
 		self.width = 0
 		self.heigth = 0
-		self.tile_types = {"wall":wall, "ground":ground, "water":water, "altar":altar,"grass":grass} # import from tile_types and add more here
+		self.tile_types = {"wall":wall, "ground":ground, "water":water, "altar":altar,"grass":grass, "unknown":unknown} # import from tile_types and add more here
 		
 	def read_map(self):
 		# read from csv file
@@ -63,7 +63,13 @@ class GameMap():
 	def set_size(self, new_width, new_heigth):
 		self.width = new_width
 		self.heigth = new_heigth
-	
+		
+	def is_walkable(self, x, y):
+		for tile in self.board:
+			if x == tile['x'] and y == tile['y']:
+				return tile['tile'].tile_type.walkability
+
+
 
 if __name__ == "__main__":
 	game_map = GameMap()

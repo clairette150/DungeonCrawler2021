@@ -61,6 +61,7 @@ class Game():
 		self.player = Player()
 		self.display = Display()
 		self.obj_on_screen = [] # maybe this goes into display?
+		self.map_making_mode = False
 		
 	def run(self):
 		self.set_up_map()
@@ -75,25 +76,52 @@ class Game():
 			# compute
 			sleep(0.5)
 			if player_input == "w":
-				self.player.y += -1
+				x = self.player.x +  0
+				y = self.player.y + -1
+				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
+					self.player.y += -1
+				else:
+					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+					
 			if player_input == "a":
-				self.player.x += -1
+				x = self.player.x + -1
+				y = self.player.y + 0
+				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
+					self.player.x += -1
+				else:
+					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+				
 			if player_input == "s":
-				self.player.y += 1
+				x = self.player.x +  0
+				y = self.player.y + 1
+				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
+					self.player.y += 1
+				else:
+					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+				
 			if player_input == "d":
-				self.player.x += 1
+				x = self.player.x +  1
+				y = self.player.y + 0
+				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
+					self.player.x += 1
+				else:
+					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
 				
 			# Building Mode
 			# - First alter map size
 			# - Then add new tiles
-			if player_input == "m":
+			if player_input == "m" and self.map_making_mode == False:
 				new_width = input("New Map Width: ")
 				new_heigth = input("New Map Height: ")
 				new_width = int(new_width)
 				new_heigth = int(new_heigth) 
-				self.game_map.set_size(new_width, new_heigth)
 				# fill map with unkown tiles
-				
+				self.game_map.set_size(new_width, new_heigth)
+				# toggle map_making_mode
+				self.map_making_mode = True				
+			elif player_input == "m" and self.map_making_mode == True:
+				self.map_making_mode = False
+
 			if player_input == "#":
 				# create wall tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "wall")
@@ -116,8 +144,12 @@ class Game():
 
 			#clear screen
 			self.display.clear_screen()
+			# show that map making mode is toggeled
+			if self.map_making_mode == True:
+				print("-- Map Editor --")
 			# show
 			self.display.draw_map(self.game_map, self.player)
+			
 			# print player stats
 			self.player.printStats()
 					
