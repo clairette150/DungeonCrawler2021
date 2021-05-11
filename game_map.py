@@ -51,25 +51,51 @@ class GameMap():
 		dictionary = {'x':tile_x, 'y':tile_y, 'tile':tile_obj}
 		self.board.append(dictionary)
 			
-	def write_game_map(self, tiles_of_map_data):
+	def write_game_map(self, data):
 		# add to csv file
-		for tile in tiles_of_map_data:
-			add_csv('tile_map.csv',tile)
+		for tile_dict in self.board:
+			print(tile_dict)
+			data_list = []
+			data_list.append(tile_dict['x'])
+			data_list.append(tile_dict['y'])
+			data_list.append(tile_dict['tile'].tile_type.name)
+			print("-- writing tiledata to csv: ", data_list)
+			add_csv('tile_map.csv',data_list)
 		
 	def create_game_map(self):
 		if not os.path.isfile('./tile_map.csv'): 
 			make_csv('tile_map.csv',['x','y','tiletype'])
+			
+	def save_game_map(self):
+		# this overrrites the tilemap
+		data_list = [['x','y','tiletype']]
+		for tile_dict in self.board:
+			print(tile_dict)
+			data_list = []
+			data_list.append(tile_dict['x'])
+			data_list.append(tile_dict['y'])
+			data_list.append(tile_dict['tile'].tile_type.name)
+			print("-- writing tiledata to csv: ", data_list)
+		make_csv('tile_map.csv',data_list)
 		
 	def set_size(self, new_width, new_heigth):
 		self.width = new_width
 		self.heigth = new_heigth
+		
+	def is_walkable(self, x, y):
+		for tile in self.board:
+			if x == tile['x'] and y == tile['y']:
+				return tile['tile'].tile_type.walkability
 	
 
 if __name__ == "__main__":
 	game_map = GameMap()
 	#game_map.create_game_map()
 	#data = game_map.read_map()
+	
+	#TODO: change this to dictionaries!
 	#game_map.write_map([['0','0','wall'], ['0','1','wall'], ['0','2','wall'], ['1','0','ground'], ['1','1','ground'], ['1','2','ground'], ['2','0','wall'], ['2','1','wall'], ['2','2','wall']])
+	
 	#data = game_map.read_map()
 	#game_map.make_board()	
 	#game_map.draw_map()

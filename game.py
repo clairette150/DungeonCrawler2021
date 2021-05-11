@@ -75,7 +75,12 @@ class Game():
 			# compute
 			sleep(0.5)
 			if player_input == "w":
-				self.player.y += -1
+				x = self.player.x +  0
+				y = self.player.y + -1
+				if self.game_map.is_walkable(x, y):
+					self.player.y += -1
+				else:
+					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
 			if player_input == "a":
 				self.player.x += -1
 			if player_input == "s":
@@ -112,7 +117,7 @@ class Game():
 			
 			if player_input == "save":
 				# generate tiledata to save and write is to csv
-				self.game_map.write_game_map(self.game_map.board)
+				self.game_map.save_game_map()
 
 			#clear screen
 			self.display.clear_screen()
