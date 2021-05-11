@@ -30,7 +30,6 @@ class Display():
                 for tile_data in game_map.board:
                     #draw player
                     if x == player.x and y == player.y:
-                        #print(x, "/", y)
                         icon = player.icon
                     #TODO add other icons like mobs, coins etc.
                     # draw map
@@ -95,7 +94,6 @@ class Game():
 				self.game_map.set_size(new_width, new_heigth)
 				# fill map with unkown tiles
 				
-			
 			if player_input == "#":
 				# create wall tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "wall")
@@ -111,6 +109,10 @@ class Game():
 			if player_input == "*":
 				# create grass tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "grass")
+			
+			if player_input == "save":
+				# generate tiledata to save and write is to csv
+				self.game_map.write_game_map(self.game_map.board)
 
 			#clear screen
 			self.display.clear_screen()
