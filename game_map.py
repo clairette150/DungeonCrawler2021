@@ -67,7 +67,7 @@ class GameMap():
 			make_csv('tile_map.csv',['x','y','tiletype'])
 			
 	def save_game_map(self):
-		# this overrrites the tilemap
+		# this over-writes the tilemap
 		data_list = [['x','y','tiletype']]
 		for tile_dict in self.board:
 			print(tile_dict)
@@ -75,8 +75,15 @@ class GameMap():
 			data_list.append(tile_dict['x'])
 			data_list.append(tile_dict['y'])
 			data_list.append(tile_dict['tile'].tile_type.name)
-			print("-- writing tiledata to csv: ", data_list)
-		make_csv('tile_map.csv',data_list)
+		print("-- writing tiledata to csv: ", data_list)
+		add_csv('tile_map.csv', data_list)
+		
+	def write_game_map(self, tiles_of_map_data):
+		# overwrite old file
+		make_csv('tile_map.csv',['x','y','tiletype'])
+		# add to csv file
+		for tile in tiles_of_map_data:
+			add_csv('tile_map.csv',tile)
 		
 	def set_size(self, new_width, new_heigth):
 		self.width = new_width
