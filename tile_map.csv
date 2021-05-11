@@ -1,1 +1,10 @@
-3|1|altar
+x|y|tiletype
+0|0|wall
+0|1|wall
+0|2|wall
+1|0|ground
+1|1|ground
+1|2|ground
+2|0|wall
+2|1|wall
+2|2|wall
