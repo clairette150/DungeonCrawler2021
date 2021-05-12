@@ -1,4 +1,5 @@
 x|y|tiletype
+x|y|tiletype
 0|0|wall
 0|1|wall
 0|2|wall
@@ -8,4 +9,5 @@ x|y|tiletype
 2|0|wall
 2|1|wall
 2|2|wall
-1|4|wall
+3|1|altar
+3|2|altar
