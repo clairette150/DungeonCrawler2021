@@ -64,7 +64,10 @@ class GameMap():
 		
 	def create_game_map(self):
 		if not os.path.isfile('./tile_map.csv'): 
+			# create a csv
 			make_csv('tile_map.csv',['x','y','tiletype'])
+			# fill it with tiles
+			self.game_map.write_game_map([['0','0','wall'], ['0','1','wall'], ['0','2','wall'], ['1','0','ground'], ['1','1','ground'], ['1','2','ground'], ['2','0','wall'], ['2','1','wall'], ['2','2','wall']])
 			
 	def save_game_map(self):
 		# this over-writes the tilemap
