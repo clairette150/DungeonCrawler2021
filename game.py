@@ -140,7 +140,7 @@ class Game():
 			
 			if player_input == "save":
 				# generate tiledata to save and write is to csv
-				self.game_map.write_game_map(self.game_map.board)
+				self.game_map.save_game_map()
 
 			#clear screen
 			self.display.clear_screen()
@@ -158,7 +158,6 @@ class Game():
 	
 	def set_up_map(self):
 			self.game_map.create_game_map()
-			self.game_map.write_game_map([['0','0','wall'], ['0','1','wall'], ['0','2','wall'], ['1','0','ground'], ['1','1','ground'], ['1','2','ground'], ['2','0','wall'], ['2','1','wall'], ['2','2','wall']])
 			self.game_map.make_board()	
 
 
