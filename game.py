@@ -3,6 +3,7 @@
 
 from os import system, name 
 from time import sleep 
+import logging
 from model.player import Player
 from model.point import Point
 
@@ -62,7 +63,15 @@ class Game():
 		self.display = Display()
 		self.obj_on_screen = [] # maybe this goes into display?
 		self.map_making_mode = False
+		logging.basicConfig(filename='game.log', level=logging.DEBUG) #new python versions add: encoding='utf-8'
 		
+	#def logging(self):
+		#logging.debug('...')
+		#logging.info('...')
+		#logging.warning('...')
+		#logging.error('...')	
+	
+	
 	def run(self):
 		self.set_up_map()
 		while self.is_running:
@@ -72,6 +81,7 @@ class Game():
 			
 			# handle input
 			player_input = input("You:")
+			logging.debug('Player Input: {}'.format(player_input)) #logging player input
 			
 			# compute
 			sleep(0.5)
@@ -82,6 +92,7 @@ class Game():
 					self.player.y += -1
 				else:
 					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
 					
 			if player_input == "a":
 				x = self.player.x + -1
@@ -90,6 +101,7 @@ class Game():
 					self.player.x += -1
 				else:
 					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
 				
 			if player_input == "s":
 				x = self.player.x +  0
@@ -98,6 +110,7 @@ class Game():
 					self.player.y += 1
 				else:
 					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
 				
 			if player_input == "d":
 				x = self.player.x +  1
@@ -106,11 +119,13 @@ class Game():
 					self.player.x += 1
 				else:
 					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
 				
 			# Building Mode
 			# - First alter map size
 			# - Then add new tiles
 			if player_input == "m" and self.map_making_mode == False:
+				logging.debug('Switching to Building Mode')
 				new_width = input("New Map Width: ")
 				new_heigth = input("New Map Height: ")
 				new_width = int(new_width)
@@ -121,6 +136,7 @@ class Game():
 				self.map_making_mode = True				
 			elif player_input == "m" and self.map_making_mode == True:
 				self.map_making_mode = False
+				logging.debug('Switching to Game Mode')					
 
 			if player_input == "#":
 				# create wall tile
@@ -139,6 +155,7 @@ class Game():
 				self.game_map.create_new_tile(self.player.x, self.player.y, "grass")
 			
 			if player_input == "save":
+				logging.debug('Saving Game')
 				# generate tiledata to save and write is to csv
 				self.game_map.save_game_map()
 
@@ -154,6 +171,7 @@ class Game():
 			self.player.printStats()
 					
 	def quit(self):
+		logging.debug('Ending Game. Bye!')
 		self.is_running = False
 	
 	def set_up_map(self):
