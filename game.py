@@ -85,7 +85,11 @@ class Game():
 			
 			# compute
 			sleep(0.5)
-			if player_input == "w":
+
+			if player_input.startswith("/nick "):
+				if not self.player.setName(player_input.split(" ", 1)[1]):
+					print("Please make sure the command is used correctly. Example /nick John")
+			elif player_input == "w":
 				x = self.player.x +  0
 				y = self.player.y + -1
 				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
@@ -93,8 +97,7 @@ class Game():
 				else:
 					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
 					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
-					
-			if player_input == "a":
+			elif player_input == "a":
 				x = self.player.x + -1
 				y = self.player.y + 0
 				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
@@ -102,8 +105,7 @@ class Game():
 				else:
 					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
 					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
-				
-			if player_input == "s":
+			elif player_input == "s":
 				x = self.player.x +  0
 				y = self.player.y + 1
 				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
@@ -111,8 +113,7 @@ class Game():
 				else:
 					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
 					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
-				
-			if player_input == "d":
+			elif player_input == "d":
 				x = self.player.x +  1
 				y = self.player.y + 0
 				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
@@ -120,11 +121,10 @@ class Game():
 				else:
 					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
 					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
-				
 			# Building Mode
 			# - First alter map size
 			# - Then add new tiles
-			if player_input == "m" and self.map_making_mode == False:
+			elif player_input == "m" and self.map_making_mode == False:
 				logging.debug('Switching to Building Mode')
 				new_width = input("New Map Width: ")
 				new_heigth = input("New Map Height: ")
@@ -138,26 +138,29 @@ class Game():
 				self.map_making_mode = False
 				logging.debug('Switching to Game Mode')					
 
-			if player_input == "#":
+			elif player_input == "#":
 				# create wall tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "wall")
-			if player_input == ".":
+			elif player_input == ".":
 				# create ground tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "ground")
-			if player_input == "~":
+			elif player_input == "~":
 				# create water tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "water")
-			if player_input == "@":
+			elif player_input == "@":
 				# create altar tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "altar")
-			if player_input == "*":
+			elif player_input == "*":
 				# create grass tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "grass")
 			
-			if player_input == "save":
+			elif player_input == "save":
 				logging.debug('Saving Game')
 				# generate tiledata to save and write is to csv
 				self.game_map.save_game_map()
+			else:
+				print("Command has not been recognized.")
+				continue
 
 			#clear screen
 			self.display.clear_screen()
