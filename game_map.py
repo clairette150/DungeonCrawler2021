@@ -3,7 +3,7 @@
 import os 
 
 from tile import Tile
-from tile_type import ground, wall, water, altar, grass, unknown
+from tile_type import tile_types
 
 from read_write_csv import make_csv, read_csv, add_csv
 
@@ -13,7 +13,8 @@ class GameMap():
 		self.board = []		
 		self.width = 0
 		self.heigth = 0
-		self.tile_types = {"wall":wall, "ground":ground, "water":water, "altar":altar,"grass":grass, "unknown":unknown} # import from tile_types and add more here
+		self.tile_types = tile_types
+		#{"wall":wall, "ground":ground, "water":water, "altar":altar,"grass":grass, "unknown":unknown} # import from tile_types and add more here
 		
 	def read_map(self):
 		# read from csv file

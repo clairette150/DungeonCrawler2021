@@ -1,3 +1,8 @@
+import os
+
+from read_write_csv import make_csv, read_csv, add_csv
+
+
 class TileType():
 	def __init__(self, name, walkability, icon):
 		self.name = name
@@ -6,10 +11,54 @@ class TileType():
 		
 	def __repr__(self):
 		return self.icon
+		
 
-ground = TileType("ground", True, "•")
-wall = TileType("wall", False, "#")
-water = TileType("water", False, "~")
-altar = TileType("altar", False, "@")
-grass = TileType("grass", True, "*")
-unknown = TileType("unknown", True, "?")
+
+class TileTypeFactory:
+	def __init__(self):
+		pass
+			
+	def read_tiles_from_csv(self):
+		try:
+			data = read_csv('tile_types.csv')
+			#print("Got the following tiletype data: ", data)
+			return data
+		except FileNotFoundError:
+			return False
+		
+	def make_tile_obj_dict(self, data):
+		dictionary_of_tile_types = {}
+		# add each type to dictionary:
+		for name, walkability, icon in data:
+			dictionary_of_tile_types[name] = TileType(name, walkability, icon)
+		return dictionary_of_tile_types
+		
+	def create_tile_types(self):
+		if not os.path.isfile('./tile_types.csv'): 
+			# create file
+			make_csv('tile_types.csv',['name', 'walkability', 'icon']) 
+			# fill it with some tile type data
+			basic_tile_type_list = [["ground", True, "•"],["wall", False, "#"],["water", False, "~"],["altar", False, "@"],["grass", True, "*"], ["unknown", True, "?"]]
+			for data in basic_tile_type_list:
+				add_csv('tile_types.csv', data)
+			
+	def make_dictionary(self):
+		data = self.read_tiles_from_csv()
+		if data == False:
+			self.create_tile_types()
+			data = self.read_tiles_from_csv()
+		return self.make_tile_obj_dict(data) 
+		
+	
+tile_type_factory = TileTypeFactory()	
+tile_types = tile_type_factory.make_dictionary()
+
+
+#if __name__ == "__main__":
+	#Testing
+	#tile_type_factory = TileTypeFactory()
+	#data = tile_type_factory.read_tiles_from_csv()
+	#if data == False:
+	#	tile_type_factory.create_tile_types()
+	#	data = tile_type_factory.read_tiles_from_csv()
+	#print("Got the following tiletype data: ", type(data), ",", data)
