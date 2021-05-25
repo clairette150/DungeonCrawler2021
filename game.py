@@ -15,7 +15,7 @@ RIGHT = Point(0, -1)
 UP = Point(-1, 0)
 DOWN = Point(1,0)
 
-class Display():
+class Display:
     def __init__(self):
         pass
 
@@ -55,7 +55,7 @@ class Display():
             _ = system('clear') 
 
 
-class Game():
+class Game:
 	def __init__(self):
 		self.is_running = True
 		self.game_map = GameMap()

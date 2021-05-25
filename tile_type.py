@@ -3,7 +3,7 @@ import os
 from read_write_csv import make_csv, read_csv, add_csv
 
 
-class TileType():
+class TileType:
 	def __init__(self, name, walkability, icon):
 		self.name = name
 		self.walkability = walkability
@@ -15,12 +15,13 @@ class TileType():
 
 
 class TileTypeFactory:
+	path = './.temp/tile_types.csv'
 	def __init__(self):
 		pass
 			
 	def read_tiles_from_csv(self):
 		try:
-			data = read_csv('tile_types.csv')
+			data = read_csv(self.path)
 			#print("Got the following tiletype data: ", data)
 			return data
 		except FileNotFoundError:
@@ -29,18 +30,22 @@ class TileTypeFactory:
 	def make_tile_obj_dict(self, data):
 		dictionary_of_tile_types = {}
 		# add each type to dictionary:
-		for name, walkability, icon in data:
-			dictionary_of_tile_types[name] = TileType(name, walkability, icon)
+		for tileData in data:
+			try:
+				name, walkability, icon =tileData
+				dictionary_of_tile_types[name] = TileType(name, walkability, icon)
+			except:
+				pass
 		return dictionary_of_tile_types
 		
 	def create_tile_types(self):
-		if not os.path.isfile('./tile_types.csv'): 
+		if not os.path.isfile(self.path):
 			# create file
 			make_csv('tile_types.csv',['name', 'walkability', 'icon']) 
 			# fill it with some tile type data
 			basic_tile_type_list = [["ground", True, "•"],["wall", False, "#"],["water", False, "~"],["altar", False, "@"],["grass", True, "*"], ["unknown", True, "?"]]
 			for data in basic_tile_type_list:
-				add_csv('tile_types.csv', data)
+				add_csv(self.path, data)
 			
 	def make_dictionary(self):
 		data = self.read_tiles_from_csv()

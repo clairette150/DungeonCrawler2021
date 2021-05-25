@@ -8,7 +8,7 @@ from tile_type import tile_types
 from read_write_csv import make_csv, read_csv, add_csv
 
 
-class GameMap():
+class GameMap:
 	def __init__(self):
 		self.board = []		
 		self.width = 0
