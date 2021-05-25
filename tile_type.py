@@ -41,7 +41,7 @@ class TileTypeFactory:
 	def create_tile_types(self):
 		if not os.path.isfile(self.path):
 			# create file
-			make_csv('tile_types.csv',['name', 'walkability', 'icon']) 
+			make_csv(self.path,['name', 'walkability', 'icon'])
 			# fill it with some tile type data
 			basic_tile_type_list = [["ground", True, "•"],["wall", False, "#"],["water", False, "~"],["altar", False, "@"],["grass", True, "*"], ["unknown", True, "?"]]
 			for data in basic_tile_type_list:
