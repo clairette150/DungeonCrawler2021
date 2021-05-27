@@ -156,6 +156,7 @@ class Game:
 			
 			elif player_input == "save":
 				logging.debug('Saving Game')
+				print(" Game has beed saved!")
 				# generate tiledata to save and write is to csv
 				self.game_map.save_game_map()
 			else:
