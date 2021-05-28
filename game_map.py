@@ -2,10 +2,9 @@
 
 import os 
 
+from read_write_csv import make_csv, read_csv, add_csv
 from tile import Tile
 from tile_type import tile_types
-
-from read_write_csv import make_csv, read_csv, add_csv
 
 
 class GameMap:

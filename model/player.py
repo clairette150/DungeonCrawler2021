@@ -1,5 +1,6 @@
 from model.point import Point
 
+
 class Player:
 	#Constructor
 	def __init__(self):

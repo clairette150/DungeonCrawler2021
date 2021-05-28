@@ -1,15 +1,17 @@
 # Dungeon Crawler 2021
 # by marionline
 
+from com.badlogic.gdx.backends.lwjgl import LwjglApplication, LwjglApplicationConfiguration
+import logging
 from os import system, name 
 from time import sleep 
-import logging
+
+from View.Scenes.basicGui import basicGui
+from game_map import GameMap
 from model.player import Player
 from model.point import Point
 
-from game_map import GameMap
 
-        
 LEFT = Point(0, 1)
 RIGHT = Point(0, -1)
 UP = Point(-1, 0)
@@ -184,6 +186,14 @@ class Game:
 
 
 if __name__      == "__main__":
+    cfg = LwjglApplicationConfiguration()
+    cfg.title = "DungeonCrawler";
+    cfg.width = 800
+    cfg.height = 480
+    cfg.disableAudio = True
+    
+    LwjglApplication(basicGui(), cfg)
+
     game = Game()
     game.run()
         

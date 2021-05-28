@@ -24,7 +24,7 @@ class TileTypeFactory:
 			data = read_csv(self.path)
 			#print("Got the following tiletype data: ", data)
 			return data
-		except FileNotFoundError:
+		except:
 			return False
 		
 	def make_tile_obj_dict(self, data):
@@ -43,7 +43,7 @@ class TileTypeFactory:
 			# create file
 			make_csv(self.path,['name', 'walkability', 'icon'])
 			# fill it with some tile type data
-			basic_tile_type_list = [["ground", True, "•"],["wall", False, "#"],["water", False, "~"],["altar", False, "@"],["grass", True, "*"], ["unknown", True, "?"]]
+			basic_tile_type_list = [["ground", True, ""],["wall", False, "#"],["water", False, "~"],["altar", False, "@"],["grass", True, "*"], ["unknown", True, "?"]]
 			for data in basic_tile_type_list:
 				add_csv(self.path, data)
 			
