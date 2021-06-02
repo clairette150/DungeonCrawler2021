@@ -16,6 +16,14 @@ class Player:
 	def printStats(self):
 		print("Player: {name} | HP: {hp} | MP: {mp}".format(name=self.name, hp=self.hp, mp=self.mp))
 
+	# Changes the name of the player,
+	# returns true when name got changed.
+	def setName(self, name=""):
+		if name == "":
+			return False
+		self.name = name
+		return True
+
 	def move(self):
 		#TODO: Implement
 		pass
