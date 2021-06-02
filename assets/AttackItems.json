@@ -1,0 +1,14 @@
+[
+  {
+    "id":"3",
+    "name": "Wodden Sword",
+    "desc": "A sword out of wood, it won't last long",
+    "useable": false,
+    "equipable": false,
+    "icon": "w",
+    "ingL": [[1, 1],
+             [0,1]],
+    "quality": 100,
+    "dmg": 1
+  }
+]

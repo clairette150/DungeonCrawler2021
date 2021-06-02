@@ -2,7 +2,6 @@ import unittest
 from model.Items.UseItem import UseItem
 from model.Items.DefenseItem import DefenseItem
 from model.Items.AttackItem import AttackItem
-#TODO add more tests.
 
 class ItemTest(unittest.TestCase):
     def test_emptyUseItem(self):

@@ -1,0 +1,22 @@
+[
+  {
+    "id":"0",
+    "name": "Stick",
+    "desc": "Stick made out of wood!",
+    "useable": false,
+    "equipable": false,
+    "icon": "s",
+    "ingL": [],
+    "quality": 100
+  },
+  {
+    "id":"1",
+    "name": "Log",
+    "desc": "Log from a cherry tree!",
+    "useable": false,
+    "equipable": false,
+    "icon": "l",
+    "ingL": [],
+    "quality": 100
+  }
+]

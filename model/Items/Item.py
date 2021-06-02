@@ -1,6 +1,6 @@
-class Item:
-    #TODO: add sprite /icon field.
+from model.AbstractObject import AbstractObject
 
+class Item(AbstractObject):
     # Creates an item where:
     # id(default:0) is the item id
     # name(default:"") is the name of the item.
@@ -8,21 +8,21 @@ class Item:
     # useable(default: False) is the item useable?
     # equipable(default:False) is the item equipable?
     # quality(default:0) is the quality of the item.
-    def __init__(self, id=0, name="", desc="", useable=False, equipable=False, quality=0):
+    # Icon is an icon or a sprite for the Item
+    # ingL is the ingredients list for crafting the item
+    def __init__(self, id=0, name="", desc="", useable=False, equipable=False, quality=0, icon="i", ingL=[]):
+        super().__init__(name)
         self.__id = id
-        self.__name = name
         self.__desc = desc
         self.__useable = useable
         self.__equipable = equipable
         self.__quality = quality
+        self.__icon = icon
+        self.__ingL = ingL
 
     # Returns item id.
     def getItemId(self):
         return self.__id
-
-    # Returns item name.
-    def getName(self):
-        return self.__name
 
     # Returns item description.
     def getDescription(self):
@@ -36,6 +36,17 @@ class Item:
     def isUseable(self):
         return self.__useable
 
-    # Returns if the item quality.
+    # Returns the item quality.
     def getQuality(self):
         return self.__quality
+
+    # Sets the item quality.
+    def setQuality(self, quality):
+        self.__quality = quality
+
+    #Returns the icon of the item
+    def getIcon(self):
+        return self.__icon
+
+    def getIngL(self):
+        return self.__ingL

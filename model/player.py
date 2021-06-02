@@ -1,9 +1,10 @@
 from model.point import Point
+from model.AbstractObject import AbstractObject
 
-class Player:
+class Player(AbstractObject):
 	#Constructor
 	def __init__(self):
-		self.name = "Jane"
+		super(name)
 		self.hp = 10
 		self.mp = 0
 		self.x = 1
@@ -14,14 +15,14 @@ class Player:
 
     # Prints the current player stats to console.
 	def printStats(self):
-		print("Player: {name} | HP: {hp} | MP: {mp}".format(name=self.name, hp=self.hp, mp=self.mp))
+		print("Player: {name} | HP: {hp} | MP: {mp}".format(name=self.__name, hp=self.hp, mp=self.mp))
 
 	# Changes the name of the player,
 	# returns true when name got changed.
 	def setName(self, name=""):
 		if name == "":
 			return False
-		self.name = name
+		self.__name = name
 		return True
 
 	def move(self):
