@@ -1,15 +1,15 @@
 # Dungeon Crawler 2021
 # by marionline
 
-from os import system, name 
-from time import sleep 
+from os import system, name
+from time import sleep
 import logging
 from model.player import Player
 from model.point import Point
 
-from game_map import GameMap
+from model.game_map import GameMap
 
-        
+
 LEFT = Point(0, 1)
 RIGHT = Point(0, -1)
 UP = Point(-1, 0)
@@ -19,40 +19,35 @@ class Display:
     def __init__(self):
         pass
 
-    def printPlayerStat(self, player):
-        print()
-            
     def draw_map(self, game_map, player):
         y = 0
         x = 0
-        while y <= game_map.width: 
+        while y <= game_map.width:
             row = ""
             while x <= game_map.heigth:
-                for tile_data in game_map.board:
-                    #draw player
-                    if x == player.x and y == player.y:
-                        icon = player.icon
+                icon = "?"
+                currentField = game_map.getTileAt(x,y)
+                #draw player
+                if x == player.x and y == player.y:
+                    icon = player.icon
                     #TODO add other icons like mobs, coins etc.
                     # draw map
-                    elif x == tile_data['x'] and y == tile_data['y']:
-                        icon = str(tile_data['tile'].tile_type)
-                        break
-                    else:
-                        icon = "?"
-                row += icon     
+                elif len(currentField) > 0:
+                        icon = currentField[-1].tile_type.icon
+                row += icon
                 x += 1
             x = 0
             y += 1
             print(row)
-            
-    def clear_screen(self): 
+
+    def clear_screen(self):
         # https://www.codespeedy.com/clear-screen-in-python/
         # for windows os
-        if name == 'nt': 
-            _ = system('cls')  
+        if name == 'nt':
+            _ = system('cls')
         # for mac and linux os(The name is posix)
-        else: 
-            _ = system('clear') 
+        else:
+            _ = system('clear')
 
 
 class Game:
@@ -64,25 +59,25 @@ class Game:
 		self.obj_on_screen = [] # maybe this goes into display?
 		self.map_making_mode = False
 		logging.basicConfig(filename='game.log', level=logging.DEBUG) #new python versions add: encoding='utf-8'
-		
+
 	#def logging(self):
 		#logging.debug('...')
 		#logging.info('...')
 		#logging.warning('...')
-		#logging.error('...')	
-	
-	
+		#logging.error('...')
+
+
 	def run(self):
 		self.set_up_map()
 		while self.is_running:
-			
+
 			#show position
 			print("Position: {}/{}".format(self.player.x, self.player.y))
-			
+
 			# handle input
 			player_input = input("You:")
 			logging.debug('Player Input: {}'.format(player_input)) #logging player input
-			
+
 			# compute
 			sleep(0.5)
 
@@ -129,14 +124,14 @@ class Game:
 				new_width = input("New Map Width: ")
 				new_heigth = input("New Map Height: ")
 				new_width = int(new_width)
-				new_heigth = int(new_heigth) 
+				new_heigth = int(new_heigth)
 				# fill map with unkown tiles
 				self.game_map.set_size(new_width, new_heigth)
 				# toggle map_making_mode
-				self.map_making_mode = True				
+				self.map_making_mode = True
 			elif player_input == "m" and self.map_making_mode == True:
 				self.map_making_mode = False
-				logging.debug('Switching to Game Mode')					
+				logging.debug('Switching to Game Mode')
 
 			elif player_input == "#":
 				# create wall tile
@@ -153,7 +148,7 @@ class Game:
 			elif player_input == "*":
 				# create grass tile
 				self.game_map.create_new_tile(self.player.x, self.player.y, "grass")
-			
+
 			elif player_input == "save":
 				logging.debug('Saving Game')
 				print(" Game has beed saved!")
@@ -170,20 +165,19 @@ class Game:
 				print("-- Map Editor --")
 			# show
 			self.display.draw_map(self.game_map, self.player)
-			
+
 			# print player stats
 			self.player.printStats()
-					
+
 	def quit(self):
 		logging.debug('Ending Game. Bye!')
 		self.is_running = False
-	
+
 	def set_up_map(self):
 			self.game_map.create_game_map()
-			self.game_map.make_board()	
+			self.game_map.make_board()
 
 
 if __name__      == "__main__":
     game = Game()
     game.run()
-        

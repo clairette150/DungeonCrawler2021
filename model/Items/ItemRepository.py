@@ -7,7 +7,7 @@ from model.Items.UseItem import UseItem
 
 class ItemRepository:
     def __init__(self, pathItem="", pathAttackItem="", pathRangeAttackItem="", pathDefenseItem="", pathUseItem=""):
-        self.__itemList =  []
+        self.__itemList =  {}
         self.applyTo(pathItem, self.castToItem)
         self.applyTo(pathAttackItem, self.castToAttackItem)
         self.applyTo(pathRangeAttackItem, self.castToRangeAttackItem)
@@ -20,7 +20,8 @@ class ItemRepository:
         with open(file) as json_file:
             data = json.load(json_file)
             for entry in data:
-                    self.__itemList.append(function(entry))
+                    currentItem = function(entry)
+                    self.__itemList[currentItem.getItemId()] = currentItem
 
     #Returns Item form json.
     def castToItem(self, line):
@@ -42,7 +43,6 @@ class ItemRepository:
     def castToUseItem(self, line):
         id, name, desc, useable, equipable, quality, icon, ignL = line
         return UseItem(id, name, desc, useable, equipable, quality, icon, ignL)
-
-    #Returns the current item list.
+    #Returns the current item list/dict.
     def getItemList(self):
         return self.__itemList
