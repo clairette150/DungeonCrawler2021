@@ -1,8 +1,11 @@
 from json import JSONEncoder
 
+from talking_mode import TalkingModeEncoder, speak_mode, shout_mode, whisper_mode, inform_mode
+
 class Action:
-	def __init__(self, who, what, data):
+	def __init__(self, who, action, data):
 		self.who = who
+		self.action = action
 		self.data = data
 		
 	def do(self):
@@ -23,3 +26,17 @@ class ActionEncoder(JSONEncoder):
 # {"who":"client", "action":"request", "data":"player"}
 # {"who":"client", "action":"register name", "data":"clientname"}
 # {"who":"client", "action":"move player", "data":"location"}
+
+
+class Talk(Action):
+	def __init__(self, who, action, data, talking_mode):
+		super().__init__(who, action, data)
+		self.talking_mode = talking_mode
+		
+	def do(self):
+		print("{} {} {}".format(self.who, self.talking_mode.verb, self.data))
+	
+	
+if __name__ == "__main__":
+	talk = Talk("Client", "talk", "Hello World", speak_mode)
+	Talk.do()
