@@ -1,7 +1,9 @@
 import socket, sys
 from _thread import *
 
-from talkingmode import TalkingModeEncoder, speak_mode, shout_mode, whisper_mode, inform_mode
+from talking_mode import TalkingModeEncoder, speak_mode, shout_mode, whisper_mode, inform_mode
+from action import Action
+
 
 host = "127.0.0.1"
 port = 8000
@@ -51,10 +53,6 @@ class Server():
 		# handle commands:
 		
 		#TODO: Parse json
-		
-		
-		
-		
 		
 		# This won't work with json
 		if data.decode("utf-8").startswith("nick:"):
