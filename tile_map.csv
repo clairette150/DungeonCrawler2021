@@ -1,4 +1,10 @@
 x|y|tiletype
+1|1|"{'name': 'Wodden Sword', 'id': '3', 'desc': ""A sword out of wood, it won't last long"", 'useable': False, 'equipable': False, 'quality': 100, 'icon': 'w', 'ingL': [[1, 1], [0, 1]], 'type': 'AttackItem', 'dmg': 1}"
+1|3|"{'name': 'Wodden Sword', 'id': '3', 'desc': ""A sword out of wood, it won't last long"", 'useable': False, 'equipable': False, 'quality': 100, 'icon': 'w', 'ingL': [[1, 1], [0, 1]], 'type': 'AttackItem', 'dmg': 1}"
+0|1|wall
 0|2|wall
-1|2|ground
-2|2|wall
+0|3|wall
+4|1|"{'name': 'Wodden Sword', 'id': '3', 'desc': ""A sword out of wood, it won't last long"", 'useable': False, 'equipable': False, 'quality': 100, 'icon': 'w', 'ingL': [[1, 1], [0, 1]], 'type': 'AttackItem', 'dmg': 1}"
+5|2|{'name': 'Stick', 'id': '0', 'desc': 'Stick made out of wood!', 'useable': False, 'equipable': False, 'quality': 100, 'icon': 's', 'ingL': [], 'type': 'Item'}
+5|3|water
+5|4|water

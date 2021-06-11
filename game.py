@@ -8,7 +8,7 @@ from model.player import Player
 from model.point import Point
 
 from model.game_map import GameMap
-
+from model.Items.ItemRepository import ItemRepository
 
 LEFT = Point(0, 1)
 RIGHT = Point(0, -1)
@@ -33,7 +33,10 @@ class Display:
                     #TODO add other icons like mobs, coins etc.
                     # draw map
                 elif len(currentField) > 0:
-                        icon = currentField[-1].tile_type.icon
+                        try:
+                            icon = currentField[-1].tile_type.icon
+                        except: 
+                            icon = currentField[-1].getIcon()
                 row += icon
                 x += 1
             x = 0
@@ -51,131 +54,141 @@ class Display:
 
 
 class Game:
-	def __init__(self):
-		self.is_running = True
-		self.game_map = GameMap()
-		self.player = Player()
-		self.display = Display()
-		self.obj_on_screen = [] # maybe this goes into display?
-		self.map_making_mode = False
-		logging.basicConfig(filename='game.log', level=logging.DEBUG) #new python versions add: encoding='utf-8'
+    def __init__(self):
+        self.is_running = True
+        self.game_map = GameMap()
+        self.player = Player()
+        self.display = Display()
+        self.obj_on_screen = [] # maybe this goes into display?
+        self.map_making_mode = False
+        self.itemsRepo = ItemRepository(pathItem="./assets/items.json", pathAttackItem="./assets/AttackItems.json")
+        logging.basicConfig(filename='game.log', level=logging.DEBUG) #new python versions add: encoding='utf-8'
 
-	#def logging(self):
-		#logging.debug('...')
-		#logging.info('...')
-		#logging.warning('...')
-		#logging.error('...')
+    #def logging(self):
+        #logging.debug('...')
+        #logging.info('...')
+        #logging.warning('...')
+        #logging.error('...')
 
 
-	def run(self):
-		self.set_up_map()
-		while self.is_running:
+    def run(self):
+        self.set_up_map()
+        while self.is_running:
 
-			#show position
-			print("Position: {}/{}".format(self.player.x, self.player.y))
+            #show position
+            print("Position: {}/{}".format(self.player.x, self.player.y))
 
-			# handle input
-			player_input = input("You:")
-			logging.debug('Player Input: {}'.format(player_input)) #logging player input
+            # handle input
+            player_input = input("You:")
+            logging.debug('Player Input: {}'.format(player_input)) #logging player input
 
-			# compute
-			sleep(0.5)
+            # compute
+            sleep(0.5)
 
-			if player_input.startswith("/nick "):
-				if not self.player.setName(player_input.split(" ", 1)[1]):
-					print("Please make sure the command is used correctly. Example /nick John")
-			elif player_input == "w":
-				x = self.player.x +  0
-				y = self.player.y + -1
-				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
-					self.player.y += -1
-				else:
-					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
-					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
-			elif player_input == "a":
-				x = self.player.x + -1
-				y = self.player.y + 0
-				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
-					self.player.x += -1
-				else:
-					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
-					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
-			elif player_input == "s":
-				x = self.player.x +  0
-				y = self.player.y + 1
-				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
-					self.player.y += 1
-				else:
-					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
-					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
-			elif player_input == "d":
-				x = self.player.x +  1
-				y = self.player.y + 0
-				if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
-					self.player.x += 1
-				else:
-					print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
-					logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
-			# Building Mode
-			# - First alter map size
-			# - Then add new tiles
-			elif player_input == "m" and self.map_making_mode == False:
-				logging.debug('Switching to Building Mode')
-				new_width = input("New Map Width: ")
-				new_heigth = input("New Map Height: ")
-				new_width = int(new_width)
-				new_heigth = int(new_heigth)
-				# fill map with unkown tiles
-				self.game_map.set_size(new_width, new_heigth)
-				# toggle map_making_mode
-				self.map_making_mode = True
-			elif player_input == "m" and self.map_making_mode == True:
-				self.map_making_mode = False
-				logging.debug('Switching to Game Mode')
+            if player_input.startswith("/nick "):
+                if not self.player.setName(player_input.split(" ", 1)[1]):
+                    print("Please make sure the command is used correctly. Example /nick John")
+            elif player_input.startswith("/item ") and self.map_making_mode == True:
+                try:
+                    item = self.itemsRepo.getItemList()[player_input[-1]]
+                    self.game_map.create_new_tile(self.player.x, self.player.y, item)
+                except:
+                    print("Invalid item id")
+                    continue
+            elif player_input =="/exit":
+                self.quit()
+            elif player_input == "w":
+                x = self.player.x +  0
+                y = self.player.y + -1
+                if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
+                    self.player.y += -1
+                else:
+                    print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+                    logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
+            elif player_input == "a":
+                x = self.player.x + -1
+                y = self.player.y + 0
+                if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
+                    self.player.x += -1
+                else:
+                    print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+                    logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
+            elif player_input == "s":
+                x = self.player.x +  0
+                y = self.player.y + 1
+                if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
+                    self.player.y += 1
+                else:
+                    print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+                    logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
+            elif player_input == "d":
+                x = self.player.x +  1
+                y = self.player.y + 0
+                if self.game_map.is_walkable(x, y) or self.map_making_mode == True:
+                    self.player.x += 1
+                else:
+                    print("-- Can not walk at {}/{}".format(self.player.x, self.player.y))
+                    logging.debug('Can not walk at {}/{}'.format(self.player.x, self.player.y))
+            # Building Mode
+            # - First alter map size
+            # - Then add new tiles
+            elif player_input == "m" and self.map_making_mode == False:
+                logging.debug('Switching to Building Mode')
+                new_width = input("New Map Width: ")
+                new_heigth = input("New Map Height: ")
+                new_width = int(new_width)
+                new_heigth = int(new_heigth)
+                # fill map with unkown tiles
+                self.game_map.set_size(new_width, new_heigth)
+                # toggle map_making_mode
+                self.map_making_mode = True
+            elif player_input == "m" and self.map_making_mode == True:
+                self.map_making_mode = False
+                logging.debug('Switching to Game Mode')
 
-			elif player_input == "#":
-				# create wall tile
-				self.game_map.create_new_tile(self.player.x, self.player.y, "wall")
-			elif player_input == ".":
-				# create ground tile
-				self.game_map.create_new_tile(self.player.x, self.player.y, "ground")
-			elif player_input == "~":
-				# create water tile
-				self.game_map.create_new_tile(self.player.x, self.player.y, "water")
-			elif player_input == "@":
-				# create altar tile
-				self.game_map.create_new_tile(self.player.x, self.player.y, "altar")
-			elif player_input == "*":
-				# create grass tile
-				self.game_map.create_new_tile(self.player.x, self.player.y, "grass")
+            elif player_input == "#":
+                # create wall tile
+                self.game_map.create_new_tile(self.player.x, self.player.y, "wall")
+            elif player_input == ".":
+                # create ground tile
+                self.game_map.create_new_tile(self.player.x, self.player.y, "ground")
+            elif player_input == "~":
+                # create water tile
+                self.game_map.create_new_tile(self.player.x, self.player.y, "water")
+            elif player_input == "@":
+                # create altar tile
+                self.game_map.create_new_tile(self.player.x, self.player.y, "altar")
+            elif player_input == "*":
+                # create grass tile
+                self.game_map.create_new_tile(self.player.x, self.player.y, "grass")
 
-			elif player_input == "save":
-				logging.debug('Saving Game')
-				print(" Game has beed saved!")
-				# generate tiledata to save and write is to csv
-				self.game_map.save_game_map()
-			else:
-				print("Command has not been recognized.")
-				continue
+            elif player_input == "save":
+                logging.debug('Saving Game')
+                print(" Game has beed saved!")
+                # generate tiledata to save and write is to csv
+                self.game_map.save_game_map()
+            else:
+                print("Command has not been recognized.")
+                continue
 
-			#clear screen
-			self.display.clear_screen()
-			# show that map making mode is toggeled
-			if self.map_making_mode == True:
-				print("-- Map Editor --")
-			# show
-			self.display.draw_map(self.game_map, self.player)
+            #clear screen
+            self.display.clear_screen()
+            # show that map making mode is toggeled
+            if self.map_making_mode == True:
+                print("-- Map Editor --")
+            # show
+            self.display.draw_map(self.game_map, self.player)
 
-			# print player stats
-			self.player.printStats()
+            # print player stats
+            self.player.printStats()
 
-	def quit(self):
-		logging.debug('Ending Game. Bye!')
-		self.is_running = False
+    def quit(self):
+        logging.debug('Ending Game. Bye!')
+        self.is_running = False
 
-	def set_up_map(self):
-			self.game_map.create_game_map()
-			self.game_map.make_board()
+    def set_up_map(self):
+            self.game_map.create_game_map()
+            self.game_map.make_board()
 
 
 if __name__      == "__main__":

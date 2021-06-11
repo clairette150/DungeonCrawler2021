@@ -1,5 +1,4 @@
 from model.AbstractObject import AbstractObject
-
 class Item(AbstractObject):
     # Creates an item where:
     # id(default:0) is the item id
@@ -19,6 +18,7 @@ class Item(AbstractObject):
         self.__quality = quality
         self.__icon = icon
         self.__ingL = ingL
+        self.__type = type(self).__name__
 
     # Returns item id.
     def getItemId(self):
@@ -47,6 +47,13 @@ class Item(AbstractObject):
     #Returns the icon of the item
     def getIcon(self):
         return self.__icon
-
+    #Returns the ingredients list
     def getIngL(self):
         return self.__ingL
+    
+    #Returns the object parts as a dict
+    def toDict(self):
+        output = {}
+        for var in vars(self).keys():
+            output[var.split("__")[-1]] = vars(self)[var]
+        return output

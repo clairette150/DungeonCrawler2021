@@ -5,8 +5,8 @@
     "desc": "Stick made out of wood!",
     "useable": false,
     "equipable": false,
-    "icon": "s",
     "ingL": [],
+    "icon": "s",
     "quality": 100
   },
   {
@@ -15,8 +15,8 @@
     "desc": "Log from a cherry tree!",
     "useable": false,
     "equipable": false,
-    "icon": "l",
     "ingL": [],
+    "icon": "l",
     "quality": 100
   }
 ]
